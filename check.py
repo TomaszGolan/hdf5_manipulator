@@ -36,3 +36,18 @@ def check_keys(data1, data2):
     if data1.keys() != data2.keys():
         msg.error("Files have different datasets.")
         sys.exit(1)
+
+
+def check_shapes(data1, data2):
+
+    """Check if shapes of datasets are the same.
+
+    Keyword arguments:
+    data1 -- current data dictionary
+    data2 -- data dictionary to be added
+    """
+
+    for key in data1.keys():
+        if data1[key].shape[1:] != data2[key].shape[1:]:
+            msg.error("Different shapes for dataset: %s. " % key)
+            sys.exit(1)

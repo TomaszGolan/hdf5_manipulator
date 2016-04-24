@@ -14,7 +14,8 @@ data_matrix = np.random.random_sample((N, 2, 2))
 toremove = list(np.random.random_integers(low=0, high=N, size=10))
 
 
-def create(filename, number=False, vector=False, matrix=False, remove=None):
+def create(filename, number=False, vector=False, matrix=False, remove=None,
+           mess_shapes=False):
 
     """Create a single hdf5 file.
 
@@ -45,6 +46,10 @@ def create(filename, number=False, vector=False, matrix=False, remove=None):
         f.create_dataset("data_matrix", (n, 2, 2), dtype='f')[...] \
             = np.delete(data_matrix, remove, 0)
 
+    if mess_shapes:
+        f.create_dataset("data_number", (n, 2, 2), dtype='f')[...] \
+            = np.delete(data_matrix, remove, 0)
+
     f.close()
 
 if __name__ == '__main__':
@@ -56,3 +61,5 @@ if __name__ == '__main__':
     create("number_messed.hdf5", number=True, remove=toremove)
     create("vector_messed.hdf5", vector=True, remove=toremove)
     create("matrix_messed.hdf5", matrix=True, remove=toremove)
+    create("full_messed_shapes.hdf5", number=False, vector=True, matrix=True,
+           mess_shapes=True)

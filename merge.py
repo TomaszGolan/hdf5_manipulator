@@ -49,6 +49,7 @@ def merge_data(data_list):
         else:
             print "\nAdding %(n)d entries from %(f)s" % {"n": size, "f": f}
             check.check_keys(data, data_list[f])
+            check.check_shapes(data, data_list[f])
             for key in data_list[f]:
                 data[key] = np.append(data[key], data_list[f][key], axis=0)
 

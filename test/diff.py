@@ -31,6 +31,8 @@ if __name__ == '__main__':
         msg.error("Different number of entries.")
         sys.exit(1)
 
+    check.check_shapes(data1, data2)
+
     for key in data1:
         if not np.equal(data1[key], data2[key]).all():
             msg.error("Different entries for dataset: %s" % key)
