@@ -1,100 +1,57 @@
 #!/usr/bin/env python
-"""Split hdf5 file"""
+"""
+Split hdf5 file
+"""
 import os
 import sys
-import h5py
-import numpy as np
+from collections import OrderedDict
 from parser import get_args_split as parser
 import msg
+import hdf5
+import check
 
 
-def load_file(filename):
+def generate_filelist(prefix, old_size, new_size):
 
-    """load hdf5 file to data dictionary and return it
-
-    Keyword arguments:
-    filename -- the full path to hdf5 file
-    """
-
-    f = h5py.File(filename, 'r')
-
-    data = {}
-
-    print "The following datasets were found in %s:\n" % filename
-
-    adjust = len(max(f.keys(), key=len)) + 1  # length of left text column
-
-    for key in f:
-        data[key] = f[key][...]
-        print "\t - %(key)s %(type)s %(size)s" \
-            % {"key": (key+':').ljust(adjust),
-               "size": '-> ' + str(data[key].shape),
-               "type": ('[' + str(data[key].dtype) + ']').ljust(9),
-               }
-
-    f.close()
-
-    return data
-
-
-def get_size(data):
-
-    """check if #entries is the same for all keys and return it
+    """Generate filenames for output files
+    and return as a dict (file: [begin, end]).
 
     Keyword arguments:
-    data -- data dictionary
+    prefix -- common path/to/basename
+    old_size -- size of input hdf5 files
+    new_size -- requested size for output hdf5 files
     """
 
-    sizes = [d.shape[0] for d in data.itervalues()]  # shape[0] = #entries
-
-    if max(sizes) != min(sizes):
-        msg.error("Each dataset must have the same number of entries!")
+    if new_size >= old_size:
+        msg.error("Use splitter wisely...")
         sys.exit(1)
 
-    return sizes[0]
+    nof_files, leftover = old_size / new_size, old_size % new_size
+
+    files = OrderedDict()
+
+    for i in range(nof_files + int(leftover > 0)):
+        filename = "%(prefix)s_%(id)03d.hdf5" % {"prefix": prefix, "id": i}
+        begin = i * new_size
+        end = (i + 1) * new_size if i < nof_files else i * new_size + leftover
+        files[filename] = [begin, end]
+
+    return files
 
 
-def check_keys(fkeys, ukeys):
+def save_filelist(filename, filelist):
 
-    """check if user-requested keys are included in given hdf5 file
-
-    Keyword arguments:
-    fkeys -- keys included in a file
-    ukeys -- user-requested keys
-    """
-
-    for key in ukeys:
-        if key not in fkeys:
-            msg.error("%s is not found in the input hdf5 file." % key)
-            sys.exit(1)
-
-    return ukeys
-
-
-def create_file(prefix, i, size, data):
-
-    """create a file with given subset of data
+    """Save the list of created files.
 
     Keyword arguments:
-    prefix -- file prefix (path/to/base_name)
-    i -- file index
-    size -- number of entries
-    data -- data dictionary
+    filename -- the path to txt file
+    filelist -- the list of files
     """
 
-    filename = "%(prefix)s_%(id)03d.hdf5" % {"prefix": prefix, "id": i}
+    f = open(filename, 'w')
 
-    print "\t - %(file)s, with %(n)d entries" % {"file": filename, "n": size}
-
-    f = h5py.File(filename, 'w')
-
-    for key in data:
-        # adjust dataset shape to new size
-        shape = list(data[key].shape)
-        shape[0] = size
-        # save a subset of entries from data
-        f.create_dataset(key, shape, dtype=data[key].dtype)[...] \
-            = data[key][i*size:(i+1)*size]
+    for fn in filelist:
+        print >>f, os.path.abspath(fn)
 
     f.close()
 
@@ -103,38 +60,22 @@ if __name__ == '__main__':
     msg.box("HDF5 MANIPULATOR: SPLIT")
 
     args = parser()
-    data = load_file(args.input_file)
-    old_size = get_size(data)
+    data = hdf5.load(args.input)
 
-    if args.size:
-        new_size = int(args.size)
-        if new_size > old_size:
-            msg.error("Use splitter wisely...")
-            sys.exit(1)
-    else:
-        new_size = old_size
-        msg.info("No size given. Using size=%d" % old_size)
+    print "The following datasets were found in %s:\n" % args.input
+    msg.list_dataset(data)
 
-    nof_files, leftover = old_size / new_size, old_size % new_size
+    filelist = generate_filelist(
+        args.prefix or os.path.splitext(args.input)[0],
+        check.get_size(data), int(args.size))
 
-    if args.keys:
-        keys = check_keys(data.keys(),
-                          [k.strip() for k in args.keys.split(',')])
-        print "\nThe following datasets will be saved:\n"
-        for key in keys:
-            print "\t - %s" % key
-    else:
-        keys = data.keys()
-        msg.info("No user-requested keys. Saving all datasets.")
+    print "\nSaving output files:\n"
 
-    prefix = args.prefix or os.path.splitext(args.input_file)[0]
+    for f, r in filelist.iteritems():
+        msg.list_fileinfo(f, r)
+        hdf5.save_subset(f, data, r[0], r[1])
 
-    print "\nThe list of created files:\n"
-
-    for i in range(nof_files):
-        create_file(prefix, i, new_size, data)
-
-    if leftover:
-        create_file(prefix, nof_files, leftover, data)
+    if args.filelist:
+        save_filelist(args.filelist, filelist.keys())
 
     msg.info("Done")
