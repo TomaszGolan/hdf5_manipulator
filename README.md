@@ -30,10 +30,12 @@ required arguments:
   `./split.py --input /path/to/my/data/data.hdf5 --size 100`
 
   will create `/path/to/my/data/data_XXX.hdf5` files, each with 100 entries
+  (the last one may have less no. of entries)
 
 ## Merge
 
-Merge hdf5 files (requires the same datasets in all input files):
+Merge hdf5 files (requires the same datasets, with the same shapes,
+in all input files):
 
 ```
 usage: ./merge.py <options>
