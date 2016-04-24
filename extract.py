@@ -10,18 +10,26 @@ from parser import get_args_extract as parser
 import msg
 import check
 
-def update_data(data, keys):
+
+def update_data(data, keys, skip=None):
 
     """Remove not requested datasets.
 
     Keyword arguments:
     data -- dicionary with data
     keys -- user-requested keys
+    skip -- the key not to delete
     """
 
     for key in data.keys():
+        if key == skip:
+            continue
         if key not in keys:
             del data[key]
+
+    if not len(data):
+        msg.error("No datasets to process.")
+        sys.exit(1)
 
     check.get_size(data)
 

@@ -100,3 +100,55 @@ def get_args_extract():
         )
 
     return parser.parse_args()
+
+
+def get_args_combine():
+
+    """parse arguments for combine"""
+
+    parser = argparse.ArgumentParser(
+        description="HDF5 MANIPULATOR (combine)",
+        usage="./combine.py <options>"
+        )
+
+    parser.add_argument(
+        "--keys1", action="store", dest="keys1", metavar="['key1, key2, ...']",
+        default=None,
+        help="list of datasets to be extracted from the first input file \
+              (use all if not defined)"
+        )
+
+    parser.add_argument(
+        "--keys2", action="store", dest="keys2", metavar="['key1, key2, ...']",
+        default=None,
+        help="list of datasets to be extracted from the second input file \
+              (use all if not defined)"
+        )
+
+    required = parser.add_argument_group("required arguments")
+
+    required.add_argument(
+        "--input1", action="store", dest="input1",
+        metavar="[path/to/filename1]", required=True,
+        help="path to first input hdf5 file"
+    )
+
+    required.add_argument(
+        "--input2", action="store", dest="input2",
+        metavar="[path/to/filename2]", required=True,
+        help="path to second input hdf5 file"
+    )
+
+    required.add_argument(
+        "--output", action="store", dest="output",
+        metavar="[path/to/filename]", required=True,
+        help="path to output hdf5 file"
+        )
+
+    required.add_argument(
+        "--match", action="store", dest="match", metavar="[key]",
+        required=True,
+        help="the common key use to order data"
+    )
+
+    return parser.parse_args()

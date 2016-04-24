@@ -92,7 +92,48 @@ required arguments:
 
 ## Combine
 
-TODO: Save different datasets from different files into one output hdf5
+Save different datasets from different files into one output hdf5
+(requires the same no. of entries per dataset within the file
+and one common key use for ordering):
+
+```
+usage: ./combine.py <options>
+
+HDF5 MANIPULATOR (combine)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --keys1 ['key1, key2, ...']
+                        list of datasets to be extracted from the first input
+                        file (use all if not defined)
+  --keys2 ['key1, key2, ...']
+                        list of datasets to be extracted from the second input
+                        file (use all if not defined)
+
+required arguments:
+  --input1 [path/to/filename1]
+                        path to first input hdf5 file
+  --input2 [path/to/filename2]
+                        path to second input hdf5 file
+  --output [path/to/filename]
+                        path to output hdf5 file
+  --match [key]         the common key use to order data
+```
+
+* Example 1:
+
+  `./combine.py --input1 /path/to/file1 --input2 /path/to/file2 --output /path/to/output --match id`
+
+  requires both input files have `id` key, and no other common keys;
+  will create a file which contains all datasets from input files
+  for all entries with matching `id`s
+
+* Example 2:
+
+  `./combine.py --input1 /path/to/file1 --input2 /path/to/file2 --output /path/to/output --match id --keys1 'data1' --keys2 'data2, data3'`
+
+  will create a file which contains `data1` from `file1`, `data2` and `data3`
+  from `file2` (for all entries with matching `ids`s)
 
 ## Test: create_hdf5.py
 

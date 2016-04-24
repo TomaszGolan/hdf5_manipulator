@@ -51,3 +51,36 @@ def check_shapes(data1, data2):
         if data1[key].shape[1:] != data2[key].shape[1:]:
             msg.error("Different shapes for dataset: %s. " % key)
             sys.exit(1)
+
+
+def key_exists(key, data, filename):
+
+    """Check if given dataset is included in the file.
+
+    Keyword arguments:
+    key -- key to look for
+    data -- data dictionary to check
+    """
+
+    if key not in data.keys():
+        msg.error("'%(key)s' key is missing in %(file)s."
+                  % {"key": key, "file": filename})
+        sys.exit(1)
+
+
+def different_keys(data1, data2, skip):
+
+    """Check if given files have different (except skip) datasets.
+
+    Keyword arguments:
+    data1 -- data dictionary
+    data2 -- data dictionary
+    skip -- common key
+    """
+
+    for key in data1.keys():
+        if key == skip:
+            continue
+        if key in data2.keys():
+            msg.error("Duplicated dataset: %s in input files." % key)
+            sys.exit(1)
