@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
     f = h5py.File(sys.argv[1], 'r+')
 
-    print "\nThe following datasets were saved in %s:\n" % sys.argv[1]
+    print "\nThe following datasets were found in %s:\n" % sys.argv[1]
     msg.list_dataset(f)
 
     N = check.get_size(f)
