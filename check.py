@@ -8,7 +8,7 @@ import msg
 
 def get_size(data):
 
-    """check if #entries is the same for all keys and return it
+    """Check if #entries is the same for all keys and return it
 
     Keyword arguments:
     data -- data dictionary
@@ -22,6 +22,20 @@ def get_size(data):
         sys.exit(1)
 
     return sizes[0]
+
+
+def same_sizes(data1, data2):
+
+    """Check if files have the same #entries per dataset.
+
+    Keyword arguments:
+    data1 -- first file
+    data2 -- second file
+    """
+
+    if get_size(data1) != get_size(data2):
+        msg.error("Files must have the same number of entries to be combined.")
+        sys.exit(1)
 
 
 def check_keys(data1, data2):
@@ -82,5 +96,20 @@ def different_keys(data1, data2, skip):
         if key == skip:
             continue
         if key in data2.keys():
+            msg.error("Duplicated dataset: %s in input files." % key)
+            sys.exit(1)
+
+
+def check_duplicates(keys1, keys2):
+
+    """Check if given files have different (except skip) datasets.
+
+    Keyword arguments:
+    keys1 -- the list of keys to be copied from file1
+    keys2 -- the list of keys to be copied from file2
+    """
+
+    for key in keys1:
+        if key in keys2:
             msg.error("Duplicated dataset: %s in input files." % key)
             sys.exit(1)

@@ -2,6 +2,8 @@
 
 Simple manipulation on hdf5 files.
 
+*Note: for files too big to fit in memory, use *_big.py*
+
 ## Split
 
 Split hdf5 file (requires the same no. of entries per dataset):
