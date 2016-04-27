@@ -13,7 +13,7 @@ import check
 
 def copy(source, output, keys):
 
-    """Remove not requested datasets.
+    """Copy requested datasets.
 
     Keyword arguments:
     source -- input file
