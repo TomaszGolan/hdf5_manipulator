@@ -30,7 +30,7 @@ def fullcheck(data1, data2, key):
                             "progress": 100.0 * i / len(data1)})
         sys.stdout.flush()
         if not np.array_equal(data1[i], data2[i]):
-            msg.error("Different entry (%(id) in %(key)s dataset."
+            msg.error("Different entry %(id)d in %(key)s dataset."
                       % {"key": key, "id": i})
             sys.exit(1)
 
@@ -47,7 +47,7 @@ def partcheck(data1, data2, key, n=100):
     """
 
     msg.warning("%(key)s dataset too big to fit in memory. "
-                "Comparing first / last / radnom %(n)d entries."
+                "Comparing first / last / random %(n)d entries."
                 % {"key": key, "n": n})
 
     N = len(data1)
@@ -57,7 +57,7 @@ def partcheck(data1, data2, key, n=100):
 
     for i in entries:
         if not np.array_equal(data1[i], data2[i]):
-            msg.error("Different entry (%(id) in %(key)s dataset."
+            msg.error("Different entry %(id)d in %(key)s dataset."
                       % {"key": key, "id": i})
             sys.exit(1)
 
@@ -94,5 +94,8 @@ if __name__ == '__main__':
                 partcheck(in1[key], in2[key], key)
 
             msg.info("%s match." % key)
+
+    in1.close()
+    in2.close()
 
     msg.info("Files are the same.")
