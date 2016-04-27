@@ -144,3 +144,21 @@ Create several hdf5 files filled with random numbers, matrices etc.
 ## Test: diff.py
 
 Check if two hdf5 files are exactly the same.
+
+## Test: diff_big.py
+
+Check if two hdf5 files are exactly the same. If single dataset is too big to
+fit into memory it can perform partial check [default] or full check.
+
+* Example 1:
+
+  `./diff_big.py file1 file2`
+
+  if some dataset is too big, it will check first 100 entries, last 100 entries, and random 100 entries.
+
+* Example 2:
+
+  `./diff_big.py file1 file2 fullcheck`
+
+  if some dataset is too big, it will check dataset entry
+  by entry (takes a lot of time).
