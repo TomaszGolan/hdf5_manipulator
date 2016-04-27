@@ -26,6 +26,7 @@ def copy(source, output, keys):
             msg.warning("%s requested, but not found." % k)
             continue
         else:
+            msg.info("Copying %s" % k)
             source.copy(k, output)
 
 

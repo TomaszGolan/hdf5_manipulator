@@ -23,11 +23,19 @@ def match(input1, input2, output, key):
     key -- dataset to match
     """
 
-    for i, val in enumerate(input1[key]):
-        if val != input2[key][i]:
-            msg.error("%(key)s dataset is diffent at %(id)d."
-                      % {"key": key, "id": i})
-            sys.exit(1)
+    if key not in input1 or key not in input2:
+        msg.error("Both files must contains %s" % key)
+        sys.exit(1)
+
+    if len(input1[key].shape) != 1 or len(input2[key].shape) != 1:
+        msg.error("Matching key should have (N,) shape.")
+        sys.exit(1)
+
+    if not np.array_equal(input1[key], input2[key]):
+        msg.error("%s in input files are not the same." % key)
+        sys.exit(1)
+
+    msg.info("Copying %s" % key)
 
     input1.copy(key, output)
 
@@ -69,6 +77,7 @@ def copy(source, output, keys):
     """
 
     for k in keys:
+        msg.info("Copying %s" % k)
         source.copy(k, output)
 
 
@@ -109,7 +118,7 @@ if __name__ == '__main__':
     copy(in1, out, keys1)
     copy(in2, out, keys2)
 
-    print "\nThe following datasets will be saved in %s:\n" % args.output
+    print "\nThe following datasets were saved in %s:\n" % args.output
     msg.list_dataset(out)
 
     in1.close()

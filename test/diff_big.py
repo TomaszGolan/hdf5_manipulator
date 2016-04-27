@@ -31,10 +31,24 @@ if __name__ == '__main__':
     check.check_shapes(in1, in2)
 
     for key in in1:
-        for i, val in enumerate(in1[key]):
-            if val != in2[key][i]:
-                msg.error("Different entry (%(id) in %(key)s dataset."
-                          % {"key": key, "id": i})
+        try:
+            if not np.array_equal(in1[key], in2[key]):
                 sys.exit(1)
+                msg.error("%s datasets are different." % key)
+            else:
+                msg.info("%s match." % key)
+        except:
+            msg.warning("%s dataset too big to fit in memory. "
+                        "Comparing entry by entry." % key)
+            for i, val in enumerate(in1[key]):
+                sys.stdout.write("Comparing %(key)s: %(progress).2f%%       \r"
+                                 % {"key": key,
+                                    "progress": 100.0 * i / len(in1[key])})
+                sys.stdout.flush()
+                if not np.array_equal(in1[key][i], in2[key][i]):
+                    msg.error("Different entry (%(id) in %(key)s dataset."
+                              % {"key": key, "id": i})
+                    sys.exit(1)
+            msg.info("%s match." % key)
 
     msg.info("Files are the same.")
