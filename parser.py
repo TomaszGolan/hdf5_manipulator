@@ -152,3 +152,35 @@ def get_args_combine():
     )
 
     return parser.parse_args()
+
+
+def get_args_rename():
+
+    """parse arguments for rename"""
+
+    parser = argparse.ArgumentParser(
+        description="HDF5 MANIPULATOR (rename)",
+        usage="./rename_dataset.py <options>"
+        )
+
+    required = parser.add_argument_group("required arguments")
+
+    required.add_argument(
+        "--input", action="store", dest="input",
+        metavar="[path/to/filename]", required=True,
+        help="path to input hdf5 file"
+    )
+
+    required.add_argument(
+        "--dataset", action="store", dest="dataset",
+        metavar="[old name]", required=True,
+        help="name of dataset to be changed"
+        )
+
+    required.add_argument(
+        "--name", action="store", dest="name", metavar="[new name]",
+        required=True,
+        help="new name of dataset"
+        )
+
+    return parser.parse_args()

@@ -81,7 +81,7 @@ def copy(source, output, keys):
         source.copy(k, output)
 
 
-def load(filename):
+def load(filename, mode='r'):
 
     """Load hdf5 file and print included datasets.
 
@@ -89,7 +89,7 @@ def load(filename):
     filename -- file to load
     """
 
-    f = h5py.File(filename, 'r')
+    f = h5py.File(filename, mode)
 
     print "\nThe following datasets were found in %s:\n" % filename
     msg.list_dataset(f)
