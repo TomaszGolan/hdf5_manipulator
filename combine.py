@@ -42,7 +42,7 @@ def merge_data(data1, data2, match, print_warnings=True, show_progress=False):
 
     for ct, i in enumerate(data1[match]):
         index1 = np.array([ct])
-        index2, = np.where(data2[match] == i)
+        index2 = np.array([np.searchsorted(data2[match], i)])
         if not index2.size:
             if print_warnings:
                 msg.warning("%(key)s = %(val)d found in the first file, "
