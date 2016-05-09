@@ -10,23 +10,38 @@ import check
 from extract import update_data
 
 
-def add(data, key, value):
+def build_data_dict(data1, data2, match):
 
-    """Add element to data[key]. Crete new key if necessary.
-
-    Keyword arguments:
-    data -- dictionary to update_data
-    key -- key to update_data
-    value -- value to be added
+    """Build a dictionary of zeros like the union of the two data
+    dictionaries, but with 'length' equal to the shorter dict.
     """
 
-    if key not in data.keys():
-        data[key] = value
+    data = {}
+    keys1 = [key for key in data1.keys() if key != match]
+    keys2 = [key for key in data2.keys() if key != match]
+    nfinal = min(np.shape(data1[match])[0],
+                 np.shape(data2[match])[0])
+
+    if nfinal == np.shape(data1[match])[0]:
+        data[match] = np.zeros_like(data1[match])
     else:
-        data[key] = np.append(data[key], value, axis=0)
+        data[match] = np.zeros_like(data2[match])
+    for k in keys1:
+        data[k] = np.zeros_like(data1[k])
+        shp = list(np.shape(data1[k]))
+        shp[0] = nfinal
+        data[k] = np.resize(data[k], tuple(shp))
+    for k in keys2:
+        data[k] = np.zeros_like(data2[k])
+        shp = list(np.shape(data2[k]))
+        shp[0] = nfinal
+        data[k] = np.resize(data[k], tuple(shp))
+
+    return data, keys1, keys2
 
 
-def merge_data(data1, data2, match, print_warnings=True, show_progress=False):
+def merge_data(data1, data2, match,
+               print_warnings=True, show_progress=False, sorted=True):
 
     """Merge data1 and data2 respect to match key
 
@@ -34,11 +49,13 @@ def merge_data(data1, data2, match, print_warnings=True, show_progress=False):
     data1 -- dictionary with data
     data2 -- dictionary with data
     match -- common key use to order data
+
+    Change the `index2` look up back to
+        index2, = np.where(data2[match] == i)
+    if the order of the eventids (or matching idx) is not sorted.
     """
 
-    data = {}
-    keys1 = [key for key in data1.keys() if key != match]
-    keys2 = [key for key in data2.keys() if key != match]
+    data, keys1, keys2 = build_data_dict(data1, data2, match)
 
     for ct, i in enumerate(data1[match]):
         index1 = np.array([ct])
@@ -49,11 +66,11 @@ def merge_data(data1, data2, match, print_warnings=True, show_progress=False):
                             "but not in the second one."
                             % {"key": match, "val": i})
             continue
-        add(data, match, [i])
+        data[match][ct] = i
         for key in keys1:
-            add(data, key, data1[key][index1])
+            data[key][ct] = data1[key][index1]
         for key in keys2:
-            add(data, key, data2[key][index2])
+            data[key][ct] = data2[key][index1]
 
         if show_progress:
             if ct % 100 == 0:
