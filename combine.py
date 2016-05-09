@@ -29,7 +29,7 @@ def add(data, key, value):
         data[key] = np.append(data[key], value, axis=0)
 
 
-def merge_data(data1, data2, match):
+def merge_data(data1, data2, match, print_warnings=True, show_progress=False):
 
     """Merge data1 and data2 respect to match key
 
@@ -43,19 +43,24 @@ def merge_data(data1, data2, match):
     keys1 = [key for key in data1.keys() if key != match]
     keys2 = [key for key in data2.keys() if key != match]
 
-    for i in data1[match]:
+    for ct, i in enumerate(data1[match]):
         index1, = np.where(data1[match] == i)
         index2, = np.where(data2[match] == i)
         if not index2.size:
-            msg.warning("%(key)s = %(val)d found in the first file, "
-                        "but not in the second one."
-                        % {"key": match, "val": i})
+            if print_warnings:
+                msg.warning("%(key)s = %(val)d found in the first file, "
+                            "but not in the second one."
+                            % {"key": match, "val": i})
             continue
         add(data, match, [i])
         for key in keys1:
             add(data, key, data1[key][index1])
         for key in keys2:
             add(data, key, data2[key][index2])
+
+        if show_progress:
+            if ct % 100 == 0:
+                print("finished event {}".format(ct))
 
     return data
 
@@ -95,7 +100,8 @@ if __name__ == '__main__':
 
     check.different_keys(data1, data2, args.match)
 
-    data = merge_data(data1, data2, args.match)
+    data = merge_data(data1, data2, args.match,
+                      args.print_warnings, args.show_progress)
 
     print "\nThe following datasets will be saved in %s:\n" % args.output
     msg.list_dataset(data)

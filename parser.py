@@ -125,6 +125,18 @@ def get_args_combine():
               (use all if not defined)"
         )
 
+    parser.add_argument(
+        "--do-not-warn", action="store_false", dest="print_warnings",
+        default=True,
+        help="if supplied, don't print warnings during combination"
+    )
+
+    parser.add_argument(
+        "--show-progress", action="store_true", dest="show_progress",
+        default=True,
+        help="if supplied, give an event indicator every 100 events"
+    )
+
     required = parser.add_argument_group("required arguments")
 
     required.add_argument(
