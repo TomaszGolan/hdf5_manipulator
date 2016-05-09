@@ -2,11 +2,8 @@
 """
 Combine different datasets from two hdf5 files
 """
-import os
-import sys
 import hdf5
 import numpy as np
-from collections import OrderedDict
 from parser import get_args_combine as parser
 import msg
 import check
@@ -44,7 +41,7 @@ def merge_data(data1, data2, match, print_warnings=True, show_progress=False):
     keys2 = [key for key in data2.keys() if key != match]
 
     for ct, i in enumerate(data1[match]):
-        index1, = np.where(data1[match] == i)
+        index1 = np.array([ct])
         index2, = np.where(data2[match] == i)
         if not index2.size:
             if print_warnings:
