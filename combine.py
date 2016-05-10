@@ -50,16 +50,15 @@ def merge_data(data1, data2, match,
     data2 -- dictionary with data
     match -- common key use to order data
 
-    Change the `index2` look up back to
-        index2, = np.where(data2[match] == i)
-    if the order of the eventids (or matching idx) is not sorted.
+    if the order of the eventids (or matching idx) is sorted, we can consider:
+        index2 = np.array([np.searchsorted(data2[match], i)])
     """
 
     data, keys1, keys2 = build_data_dict(data1, data2, match)
 
     for ct, i in enumerate(data1[match]):
         index1 = np.array([ct])
-        index2 = np.array([np.searchsorted(data2[match], i)])
+        index2, = np.where(data2[match] == i)
         if not index2.size:
             if print_warnings:
                 msg.warning("%(key)s = %(val)d found in the first file, "
