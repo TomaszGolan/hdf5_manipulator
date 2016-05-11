@@ -69,7 +69,7 @@ def merge_data(data1, data2, match,
         for key in keys1:
             data[key][ct] = data1[key][index1]
         for key in keys2:
-            data[key][ct] = data2[key][index1]
+            data[key][ct] = data2[key][index2]
 
         if show_progress:
             if ct % 100 == 0:
