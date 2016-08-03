@@ -75,6 +75,17 @@ def merge_data(data1, data2, match,
             if ct % 100 == 0:
                 print("finished event {}".format(ct))
 
+    # TODO - pass in a value here; generally speaking, it is not right to 
+    # never allow the match index value to be zero - it might be so
+    # legitimately; but for now...
+    badidx = np.where(data[match] == 0)
+    if len(badidx[0] > 1):
+        data[match] = np.delete(data[match], badidx, axis=0)
+    for key in keys1:
+        data[key] = np.delete(data[key], badidx, axis=0)
+    for key in keys2:
+        data[key] = np.delete(data[key], badidx, axis=0)
+
     return data
 
 
