@@ -38,10 +38,12 @@ for i in `seq ${START} 1 ${STOP}`
 do
   filenum=`echo $i | perl -ne 'printf "%04d",$_;'`
 
-  # # z information + time lattice
-  INP1="${TIMELATROOT}_${SAMPLE}_${filenum}.hdf5"
-  INP2="${ENGYLATROOT}_${SAMPLE}_${filenum}.hdf5"
-  OUTP="${TIMELATROOT}_vtxinfo_${SAMPLE}_${filenum}.hdf5"
+  DO_Z_TIME="yes"
+  if [ "$DO_Z_TIME" == "yes" ]; then
+    # z information + time lattice
+    INP1="${TIMELATROOT}_${SAMPLE}_${filenum}.hdf5"
+    INP2="${ENGYLATROOT}_${SAMPLE}_${filenum}.hdf5"
+    OUTP="${TIMELATROOT}_vtxinfo_${SAMPLE}_${filenum}.hdf5"
 
 cat << EOF
   time python combine.py \
@@ -54,21 +56,24 @@ cat << EOF
 
   python fuelme.py $OUTP 0.83 0.10
 EOF
-  time python combine.py \
-    --input1 $INP1 \
-    --input2 $INP2 \
-    --output $OUTP \
-    --match eventids \
-    --keys2 planecodes,segments,zs \
-    --do-not-warn --show-progress
+    time python combine.py \
+      --input1 $INP1 \
+      --input2 $INP2 \
+      --output $OUTP \
+      --match eventids \
+      --keys2 planecodes,segments,zs \
+      --do-not-warn --show-progress
 
-  time python fuelme.py $OUTP 0.83 0.10
+    time python fuelme.py $OUTP 0.83 0.10
+  fi
 
 
-  # z information + energy lattice + time lattice
-  INP1="${TIMELATROOT}_${SAMPLE}_${filenum}.hdf5"
-  INP2="${ENGYLATROOT}_${SAMPLE}_${filenum}.hdf5"
-  OUTP="${ENGYLATROOT}_txtutv_${SAMPLE}_${filenum}.hdf5"
+  DO_Z_ENGY_TIME="yes"
+  if [ "$DO_Z_ENGY_TIME" == "yes" ]; then
+    # z information + energy lattice + time lattice
+    INP1="${TIMELATROOT}_${SAMPLE}_${filenum}.hdf5"
+    INP2="${ENGYLATROOT}_${SAMPLE}_${filenum}.hdf5"
+    OUTP="${ENGYLATROOT}_txtutv_${SAMPLE}_${filenum}.hdf5"
 
 cat << EOF
   time python combine.py \
@@ -79,21 +84,23 @@ cat << EOF
     --keys2 hits-u,hits-v,hits-x,planecodes,segments,zs \
     --do-not-warn --show-progress
 EOF
-  time python combine.py \
-    --input1 $INP1 \
-    --input2 $INP2 \
-    --output $OUTP \
-    --match eventids \
-    --keys2 hits-u,hits-v,hits-x,planecodes,segments,zs \
-    --do-not-warn --show-progress
+    time python combine.py \
+      --input1 $INP1 \
+      --input2 $INP2 \
+      --output $OUTP \
+      --match eventids \
+      --keys2 hits-u,hits-v,hits-x,planecodes,segments,zs \
+      --do-not-warn --show-progress
 
-  time python fuelme.py $OUTP 0.83 0.10
+    time python fuelme.py $OUTP 0.83 0.10
+  fi
 
-
-  # z information + energy lattice + time lattice + muon data
-  INP1="${ENGYLATROOT}_txtutv_${SAMPLE}_${filenum}.hdf5"
-  INP2="minosmatch_muondat_wt_${SAMPLE}_${filenum}.hdf5"
-  OUTP="${ENGYLATROOT}_txtutv_muondat_${SAMPLE}_${filenum}.hdf5"
+  DO_Z_ENGY_TIME_MUON="yes"
+  if [ "$DO_Z_ENGY_TIME_MUON" == "yes" ]; then
+    # z information + energy lattice + time lattice + muon data
+    INP1="${ENGYLATROOT}_txtutv_${SAMPLE}_${filenum}.hdf5"
+    INP2="minosmatch_muondat_wt_${SAMPLE}_${filenum}.hdf5"
+    OUTP="${ENGYLATROOT}_txtutv_muondat_${SAMPLE}_${filenum}.hdf5"
 
 cat << EOF
   time python combine.py \
@@ -104,14 +111,15 @@ cat << EOF
     --keys2 muon_data \
     --do-not-warn --show-progress
 EOF
-  time python combine.py \
-    --input1 $INP1 \
-    --input2 $INP2 \
-    --output $OUTP \
-    --match eventids \
-    --keys2 muon_data \
-    --do-not-warn --show-progress
+    time python combine.py \
+      --input1 $INP1 \
+      --input2 $INP2 \
+      --output $OUTP \
+      --match eventids \
+      --keys2 muon_data \
+      --do-not-warn --show-progress
 
-  time python fuelme.py $OUTP 0.83 0.10
+    time python fuelme.py $OUTP 0.83 0.10
+  fi
 
 done
