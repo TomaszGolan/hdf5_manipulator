@@ -56,7 +56,10 @@ def merge_data(data1, data2, match,
 
     data, keys1, keys2 = build_data_dict(data1, data2, match)
 
-    for ct, i in enumerate(data1[match]):
+    # don't use enumerate here because we only want to increment the counter
+    # when we have a match
+    ct = 0
+    for i in data1[match]:
         index1 = np.array([ct])
         index2, = np.where(data2[match] == i)
         if not index2.size:
@@ -74,6 +77,7 @@ def merge_data(data1, data2, match,
         if show_progress:
             if ct % 100 == 0:
                 print("finished event {}".format(ct))
+        ct += 1
 
     # TODO - pass in a value here; generally speaking, it is not right to 
     # never allow the match index value to be zero - it might be so
