@@ -2,31 +2,43 @@
 
 PYEXEC="merge_big.py"
 
-# SAMPLE=me1Bmc
-# INP="minosmatch_muondat_${SAMPLE}_"
-# OUT="minosmatch_muondat_${SAMPLE}.hdf5"
-# python $PYEXEC --input $INP --output $OUT
-#
-# INP="minosmatch_singlepi0_${SAMPLE}_"
-# OUT="minosmatch_singlepi0_${SAMPLE}.hdf5"
-# python $PYEXEC --input $INP --output $OUT
-#
-# INP="minosmatch_singlepi0_tracker_127x72x36_${SAMPLE}_"
-# OUT="minosmatch_singlepi0_tracker_127x72x36_xuv_${SAMPLE}.hdf5"
-# python $PYEXEC --input $INP --output $OUT
+SAMPLE=me1Adata
 
-INP="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25_txtutv_vtxinfo_me1Bmc_"
-OUT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25_txtutv_vtxinfo_me1Bmc.hdf5"
-python $PYEXEC --input $INP --output $OUT
-python fuelme.py $OUTP 0.83 0.10
+# INP="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25_txtutv_vtxinfo_${SAMPLE}_"
+# OUT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25_txtutv_vtxinfo_${SAMPLE}.hdf5"
+# cat << EOF
+# python $PYEXEC --input $INP --output $OUT
+# python fuelme.py $OUT 0.83 0.10
+# EOF
+# python $PYEXEC --input $INP --output $OUT
+# python fuelme.py $OUT 0.83 0.10
 
-INP="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25_xuv_txtutv_me1Bmc_"
-OUT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25_xuv_txtutv_me1Bmc.hdf5"
-python $PYEXEC --input $INP --output $OUT
-python fuelme.py $OUTP 0.83 0.10
+# INP="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25_xuv_txtutv_${SAMPLE}_"
+# OUT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25_xuv_txtutv_${SAMPLE}.hdf5"
+# cat << EOF
+# python $PYEXEC --input $INP --output $OUT
+# python fuelme.py $OUT 0.83 0.10
+# EOF
+# python $PYEXEC --input $INP --output $OUT
+# python fuelme.py $OUT 0.83 0.10
 
-INP="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25_xuv_txtutv_muondat_me1Bmc_"
-OUT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25_xuv_txtutv_muondat_me1Bmc.hdf5"
+# INP="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25_xuv_txtutv_muondat_${SAMPLE}_"
+# OUT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25_xuv_txtutv_muondat_${SAMPLE}.hdf5"
+# cat << EOF
+# python $PYEXEC --input $INP --output $OUT
+# python fuelme.py $OUT 0.83 0.10
+# EOF
+# python $PYEXEC --input $INP --output $OUT
+# python fuelme.py $OUT 0.83 0.10
+
+SAMPLE=minerva13Bmc
+
+INP="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25_xuv_${SAMPLE}_"
+OUT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25_xuv_${SAMPLE}.hdf5"
+cat << EOF
 python $PYEXEC --input $INP --output $OUT
-python fuelme.py $OUTP 0.83 0.10
+python fuelme.py $OUT 0.83 0.10
+EOF
+python $PYEXEC --input $INP --output $OUT
+python fuelme.py $OUT 0.83 0.10
 

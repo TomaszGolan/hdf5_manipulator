@@ -11,6 +11,7 @@ elif [[ $# > 1 ]]; then
 fi
 
 SAMPLE=me1Bmc
+SAMPLE=me1Adata
 MUONROOT=minosmatch_muondat_wt
 
 # groups in the hdf5 file
