@@ -10,7 +10,7 @@ elif [[ $# > 1 ]]; then
   STOP=$2
 fi
 
-SAMPLE=me1Amc
+SAMPLE=minerva1nofsimc
 MUONROOT=minosmatch_muondat_wt
 
 BASEFILEROOT=minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25
