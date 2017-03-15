@@ -44,7 +44,7 @@ def create_datasets(inp, outp, idx, slice_size):
     slices = slices_maker(len(idx), slice_size)
     for key in inp.keys():
         shp = list(inp[key].shape)
-        shp[0] = np.count_nonzero(idx)
+        shp[0] = len(idx)
         outp.create_dataset(
             key, shp, dtype=inp[key].dtype, compression='gzip'
         )
@@ -81,13 +81,21 @@ if __name__ == '__main__':
                       help='Chunk size for copying',
                       metavar='SLICE_SIZE')
     parser.add_option('-t', '--train_frac', dest='train_frac',
-                      default=0.83, type='float',
+                      default=0.86, type='float',
                       help='Training fraction',
                       metavar='TRAIN_FRAC')
     parser.add_option('-v', '--valid_frac', dest='valid_frac',
-                      default=0.1, type='float',
+                      default=0.07, type='float',
                       help='Validation fraction',
                       metavar='VALID_FRAC')
+    parser.add_option('--wmin', dest='wmin',
+                      default=0.0, type='float',
+                      help='min W',
+                      metavar='W_MIN')
+    parser.add_option('--wmax', dest='wmax',
+                      default=2000.0, type='float',
+                      help='max W',
+                      metavar='W_MAX')
     (options, args) = parser.parse_args()
 
     train_frac = options.train_frac
@@ -98,7 +106,7 @@ if __name__ == '__main__':
         os.remove(options.output_file)
     output_file = h5py.File(options.output_file, 'w')
 
-    idx = get_filtered_idx(input_file)
+    idx = get_filtered_idx(input_file, Wmin=options.wmin, Wmax=options.wmax)
     create_datasets(
         input_file, output_file, idx, slice_size=options.slice_size
     )
