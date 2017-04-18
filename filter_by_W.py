@@ -11,7 +11,7 @@ from fuel.datasets.hdf5 import H5PYDataset
 
 def get_filtered_idx(hdf5file, Wmin=2000.0, Wmax=2500.0):
     idx1 = hdf5file['W'][:] >= Wmin
-    idx2 = hdf5file['W'][:] <= Wmax
+    idx2 = hdf5file['W'][:] < Wmax
     idx = np.where(idx1 & idx2)
     return list(idx[0])
 
@@ -62,7 +62,6 @@ def create_datasets(inp, outp, idx, slice_size):
             ))
             outp[key][first_idx: last_idx] = inp[key][temp_idx]
             first_idx += nentries
-
 
 
 if __name__ == '__main__':
