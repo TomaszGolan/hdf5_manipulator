@@ -21,12 +21,11 @@ if __name__ == '__main__':
 
     # TODO - come up with a clever way to generalize this...
     new_sizes = [(0, 50000), (50000, 60000), (60000, 70000)]
-    new_names = ['mnist_train.hdf5', 'mnist_valid.hdf5', 'mnist_test.hdf5']
-    new_filelist = zip(new_names, new_sizes)
+    new_names_ext = ['_train.hdf5', '_valid.hdf5', '_test.hdf5']
+    new_filelist = zip(new_names_ext, new_sizes)
 
     filelist = generate_uneven_filelist(
         args.prefix or os.path.splitext(args.input)[0],
-        check.get_size(data),
         new_filelist
     )
 
