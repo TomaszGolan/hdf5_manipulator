@@ -12,8 +12,8 @@
 #restore to turn off email #PBS -m n
 
 
-START=1
-STOP=1
+START=2
+STOP=55
 
 SAMPLE=me1Amc
 
