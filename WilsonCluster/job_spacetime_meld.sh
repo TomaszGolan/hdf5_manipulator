@@ -49,7 +49,7 @@ if [[ $DIRTY != "" ]]; then
   # exit 0
 fi
 
-filelist='combine.py meld_space_and_time.py fuelme.py hdf5.py parser.py msg.py check.py'
+filelist='combine.py meld_space_and_time.py fuelme.py hdf5.py parser.py msg.py check.py extract.py'
 for filename in $filelist
 do
   cp /home/perdue/hdf5_manipulator/${filename} ${PBS_O_WORKDIR}
