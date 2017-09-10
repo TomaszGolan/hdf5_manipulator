@@ -74,13 +74,13 @@ cat << EOF
     --keys2 hits-u,hits-v,hits-x,planecodes,segments,zs \
     --do-not-warn --show-progress
 EOF
-  # python combine.py \
-  #   --input1 $INP1 \
-  #   --input2 $INP2 \
-  #   --output $OUTP \
-  #   --match eventids \
-  #   --keys2 hits-u,hits-v,hits-x,planecodes,segments,zs \
-  #   --do-not-warn --show-progress
+  python combine.py \
+    --input1 $INP1 \
+    --input2 $INP2 \
+    --output $OUTP \
+    --match eventids \
+    --keys2 hits-u,hits-v,hits-x,planecodes,segments,zs \
+    --do-not-warn --show-progress
   # merge the time and energy tensors in the combined hdf5 file
   # into combined tensors within that file 
 cat << EOF
@@ -88,9 +88,9 @@ cat << EOF
   rm -f $OUTP
   python fuelme.py $FINAL 0.86 0.07
 EOF
-  # python meld_space_and_time.py --input_file $OUTP --output_file $FINAL
-  # rm -f $OUTP
-  # python fuelme.py $FINAL 0.86 0.07
+  python meld_space_and_time.py --input_file $OUTP --output_file $FINAL
+  rm -f $OUTP
+  python fuelme.py $FINAL 0.86 0.07
 done
 
 echo "Job ${PBS_JOBNAME} submitted from ${PBS_O_HOST} finished "`date`" jobid ${PBS_JOBID}"
