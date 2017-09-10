@@ -12,8 +12,8 @@
 #restore to turn off email #PBS -m n
 
 
-START=0
-STOP=0
+START=1
+STOP=1
 
 SAMPLE=me1Amc
 
@@ -72,7 +72,7 @@ cat << EOF
     --output $OUTP \
     --match eventids \
     --keys2 hits-u,hits-v,hits-x,planecodes,segments,zs \
-    --do-not-warn --show-progress
+    --do-not-warn
 EOF
   python combine.py \
     --input1 $INP1 \
@@ -80,7 +80,7 @@ EOF
     --output $OUTP \
     --match eventids \
     --keys2 hits-u,hits-v,hits-x,planecodes,segments,zs \
-    --do-not-warn --show-progress
+    --do-not-warn
   # merge the time and energy tensors in the combined hdf5 file
   # into combined tensors within that file 
 cat << EOF
