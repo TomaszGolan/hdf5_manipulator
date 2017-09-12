@@ -15,8 +15,10 @@ INPATH="/data/perdue/minerva/hdf5/201709"
 OUTPATH="/data/perdue/minerva/hdf5/201709"
 
 BASEFILEROOT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25"
-TYPEXT="${BASEFILEROOT}_xtxutuvtv"
-SAMPLE="me1Amc"
+TYPEXT="${BASEFILEROOT}_txtutv"
+# TYPEXT="${BASEFILEROOT}_xuv"
+# TYPEXT="${BASEFILEROOT}_xtxutuvtv"
+SAMPLE="me1Adata"
 
 # print identifying info for this job
 echo "Job ${PBS_JOBNAME} submitted from ${PBS_O_HOST} started "`date`" jobid ${PBS_JOBID}"
