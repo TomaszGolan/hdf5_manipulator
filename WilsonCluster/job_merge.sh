@@ -14,11 +14,6 @@
 INPATH="/data/perdue/minerva/hdf5/201709"
 OUTPATH="/data/perdue/minerva/hdf5/201709"
 
-BASEFILEROOT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25"
-TYPEXT="${BASEFILEROOT}_txtutv"
-# TYPEXT="${BASEFILEROOT}_xuv"
-# TYPEXT="${BASEFILEROOT}_xtxutuvtv"
-SAMPLE="me1Adata"
 
 # print identifying info for this job
 echo "Job ${PBS_JOBNAME} submitted from ${PBS_O_HOST} started "`date`" jobid ${PBS_JOBID}"
@@ -50,6 +45,11 @@ do
   cp /home/perdue/hdf5_manipulator/${filename} ${PBS_O_WORKDIR}
 done
 
+BASEFILEROOT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25"
+SAMPLE="me1Bdata"
+
+# do t
+TYPEXT="${BASEFILEROOT}_txtutv"
 INP="${INPATH}/${TYPEXT}_${SAMPLE}_"
 OUT="${OUTPATH}/${TYPEXT}_${SAMPLE}.hdf5"
 cat << EOF
@@ -58,6 +58,31 @@ python fuelme.py $OUT 0.86 0.07
 EOF
 python merge_big.py --input $INP --output $OUT
 python fuelme.py $OUT 0.86 0.07
+
+
+# do E
+TYPEXT="${BASEFILEROOT}_xuv"
+INP="${INPATH}/${TYPEXT}_${SAMPLE}_"
+OUT="${OUTPATH}/${TYPEXT}_${SAMPLE}.hdf5"
+cat << EOF
+python merge_big.py --input $INP --output $OUT
+python fuelme.py $OUT 0.86 0.07
+EOF
+python merge_big.py --input $INP --output $OUT
+python fuelme.py $OUT 0.86 0.07
+
+
+# do 2d E-t
+TYPEXT="${BASEFILEROOT}_xtxutuvtv"
+INP="${INPATH}/${TYPEXT}_${SAMPLE}_"
+OUT="${OUTPATH}/${TYPEXT}_${SAMPLE}.hdf5"
+cat << EOF
+python merge_big.py --input $INP --output $OUT
+python fuelme.py $OUT 0.86 0.07
+EOF
+python merge_big.py --input $INP --output $OUT
+python fuelme.py $OUT 0.86 0.07
+
 
 echo "Job ${PBS_JOBNAME} submitted from ${PBS_O_HOST} finished "`date`" jobid ${PBS_JOBID}"
 exit 0
