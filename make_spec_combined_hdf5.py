@@ -9,10 +9,13 @@ import h5py
 
 from MnvReaderSQLite import MnvCategoricalSQLiteReader
 
-DBBASE = 'prediction67_me1Amc_epsilon1480703388'
-KINEFILE = 'minosmatch_kinedat_me1Amc.hdf5'
-ZACTUALFLE = 'me1Amc_zpluskine.hdf5'
-OUTFILE = 'me1Amc_zzpredpluskine.hdf5'
+HDF5B = '/data/perdue/minerva/hdf5/201700'
+DBB = '/data/perdue/minerva/dbs'
+
+DBBASE = DBB + '/' + 'prediction67_me1Amc_epsilon1480703388'
+KINEFILE = HDF5B + '/' + 'minosmatch_kinedat_me1Amc.hdf5'
+ZACTUALFLE = HDF5B + '/' + 'me1Amc_zpluskine.hdf5'
+OUTFILE = HDF5B + '/' + '+me1Amc_zzpredpluskine.hdf5'
 
 
 def prepare_hdf5_file(hdf5file):
@@ -92,7 +95,7 @@ def main():
     prep_datasets_using_dset_descrip_only(f, dset_description)
     example_container = make_example_container(dset_description)
 
-    for i, evt in enumerate(z_act['eventids'][:5]):
+    for i, evt in enumerate(z_act['eventids'][:1000]):
         example_container['eventids'] = evt
         r, s, g, p = decode_eventid(evt)
         # get the acutal value
