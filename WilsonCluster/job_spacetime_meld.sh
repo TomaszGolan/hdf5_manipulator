@@ -13,9 +13,9 @@
 
 
 START=0
-STOP=7
+STOP=0
 
-SAMPLE=me1Bdata
+SAMPLE=me1Bmc
 
 INPATH="/data/perdue/minerva/hdf5/201709"
 OUTPATH="/data/perdue/minerva/hdf5/201709"
@@ -92,6 +92,14 @@ EOF
   rm -f $OUTP
   python fuelme.py $FINAL 0.86 0.07
 done
+
+# INP1="${INPATH}/${TIMELATROOT}_${SAMPLE}.hdf5"
+# INP2="${INPATH}/${ENGYLATROOT}_${SAMPLE}.hdf5"
+# OUTP="${OUTPATH}/${ENGYLATROOT}_txtutv_${SAMPLE}.hdf5"
+# FINAL="${OUTPATH}/${BASEFILEROOT}_xtxutuvtv_${SAMPLE}.hdf5"
+# python meld_space_and_time.py --input_file $OUTP --output_file $FINAL
+# rm -f $OUTP
+# python fuelme.py $FINAL 0.86 0.07
 
 echo "Job ${PBS_JOBNAME} submitted from ${PBS_O_HOST} finished "`date`" jobid ${PBS_JOBID}"
 exit 0

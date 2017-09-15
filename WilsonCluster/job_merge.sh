@@ -45,43 +45,65 @@ do
   cp /home/perdue/hdf5_manipulator/${filename} ${PBS_O_WORKDIR}
 done
 
-BASEFILEROOT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25"
-SAMPLE="me1Bdata"
+BASEFILEROOT="minosmatch_kinedat"
+BASEFILEROOT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x94x47"
+SAMPLE="me1Amc"
+
+DOKINE="no"
+DOTIME="no"
+DOENGY="yes"
+DO2DET="no"
+
+# do kine
+if [[ "$DOKINE" == "yes" ]]; then
+  INP="${INPATH}/${BASEFILEROOT}_${SAMPLE}_"
+  OUT="${OUTPATH}/${BASEFILEROOT}_${SAMPLE}.hdf5"
+cat << EOF
+python merge_big.py --input $INP --output $OUT
+python fuelme.py $OUT 0.86 0.07
+EOF
+  python merge_big.py --input $INP --output $OUT
+  python fuelme.py $OUT 0.86 0.07
+fi
 
 # do t
-TYPEXT="${BASEFILEROOT}_txtutv"
-INP="${INPATH}/${TYPEXT}_${SAMPLE}_"
-OUT="${OUTPATH}/${TYPEXT}_${SAMPLE}.hdf5"
+if [[ "$DOTIME" == "yes" ]]; then
+  TYPEXT="${BASEFILEROOT}_txtutv"
+  INP="${INPATH}/${TYPEXT}_${SAMPLE}_"
+  OUT="${OUTPATH}/${TYPEXT}_${SAMPLE}.hdf5"
 cat << EOF
 python merge_big.py --input $INP --output $OUT
 python fuelme.py $OUT 0.86 0.07
 EOF
-python merge_big.py --input $INP --output $OUT
-python fuelme.py $OUT 0.86 0.07
-
+  python merge_big.py --input $INP --output $OUT
+  python fuelme.py $OUT 0.86 0.07
+fi
 
 # do E
-TYPEXT="${BASEFILEROOT}_xuv"
-INP="${INPATH}/${TYPEXT}_${SAMPLE}_"
-OUT="${OUTPATH}/${TYPEXT}_${SAMPLE}.hdf5"
+if [[ "$DOENGY" == "yes" ]]; then
+  TYPEXT="${BASEFILEROOT}_xuv"
+  INP="${INPATH}/${TYPEXT}_${SAMPLE}_"
+  OUT="${OUTPATH}/${TYPEXT}_${SAMPLE}.hdf5"
 cat << EOF
 python merge_big.py --input $INP --output $OUT
 python fuelme.py $OUT 0.86 0.07
 EOF
-python merge_big.py --input $INP --output $OUT
-python fuelme.py $OUT 0.86 0.07
-
+  python merge_big.py --input $INP --output $OUT
+  python fuelme.py $OUT 0.86 0.07
+fi
 
 # do 2d E-t
-TYPEXT="${BASEFILEROOT}_xtxutuvtv"
-INP="${INPATH}/${TYPEXT}_${SAMPLE}_"
-OUT="${OUTPATH}/${TYPEXT}_${SAMPLE}.hdf5"
+if [[ "$DO2DET" == "yes" ]]; then
+  TYPEXT="${BASEFILEROOT}_xtxutuvtv"
+  INP="${INPATH}/${TYPEXT}_${SAMPLE}_"
+  OUT="${OUTPATH}/${TYPEXT}_${SAMPLE}.hdf5"
 cat << EOF
 python merge_big.py --input $INP --output $OUT
 python fuelme.py $OUT 0.86 0.07
 EOF
-python merge_big.py --input $INP --output $OUT
-python fuelme.py $OUT 0.86 0.07
+  python merge_big.py --input $INP --output $OUT
+  python fuelme.py $OUT 0.86 0.07
+fi
 
 
 echo "Job ${PBS_JOBNAME} submitted from ${PBS_O_HOST} finished "`date`" jobid ${PBS_JOBID}"
