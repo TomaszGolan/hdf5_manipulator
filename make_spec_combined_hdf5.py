@@ -11,14 +11,14 @@ from MnvReaderSQLite import MnvCategoricalSQLiteReader
 
 HDF5B = '/data/perdue/minerva/hdf5/201700'
 DBB = '/data/perdue/minerva/dbs'
-HDF5B = '.'
-DBB = '.'
+# HDF5B = '.'
+# DBB = '.'
 
 DBBASE = DBB + '/' + 'prediction67_me1Amc_epsilon1480703388'
 KINEFILE = HDF5B + '/' + 'minosmatch_kinedat_me1Amc.hdf5'
 ZACTUALFLE = HDF5B + '/' + 'me1Amc_zpluskine.hdf5'
-# OUTFILE = HDF5B + '/' + '+me1Amc_zzpredpluskine.hdf5'
-OUTBASE = HDF5B + '/' + '+me1Amc_zzpredpluskine'
+# OUTFILE = HDF5B + '/' + 'me1Amc_zzpredpluskine.hdf5'
+OUTBASE = HDF5B + '/' + 'me1Amc_zzpredpluskine'
 
 
 def prepare_hdf5_file(hdf5file):
@@ -99,7 +99,7 @@ def process_block(idx, start, stop):
     prep_datasets_using_dset_descrip_only(f, dset_description)
     example_container = make_example_container(dset_description)
 
-    for i, evt in enumerate(z_act['eventids'][:1000]):
+    for i, evt in enumerate(z_act['eventids'][start:stop]):
         example_container['eventids'] = evt
         r, s, g, p = decode_eventid(evt)
         # get the acutal value
@@ -173,7 +173,7 @@ if __name__ == '__main__':
 
     z_act = h5py.File(ZACTUALFLE, 'r')
     num_b = np.shape(z_act['eventids'])[0]
-    slcs = slices_maker(num_b, 100000)
+    slcs = slices_maker(num_b, 10000)
     for i, s in enumerate(slcs[0:]):
         if i < 0:
             continue
