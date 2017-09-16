@@ -12,15 +12,16 @@
 #restore to turn off email #PBS -m n
 
 
-START=0
-STOP=0
+START=2
+STOP=55
 
-SAMPLE=me1Bmc
+SAMPLE=me1Amc
 
 INPATH="/data/perdue/minerva/hdf5/201709"
 OUTPATH="/data/perdue/minerva/hdf5/201709"
 
 BASEFILEROOT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25"
+BASEFILEROOT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x94x47"
 TIMELATROOT="${BASEFILEROOT}_txtutv"
 ENGYLATROOT="${BASEFILEROOT}_xuv"
 
@@ -85,10 +86,14 @@ EOF
   # into combined tensors within that file 
 cat << EOF
   python meld_space_and_time.py --input_file $OUTP --output_file $FINAL
+  rm -f $INP1
+  rm -f $INP2
   rm -f $OUTP
   python fuelme.py $FINAL 0.86 0.07
 EOF
   python meld_space_and_time.py --input_file $OUTP --output_file $FINAL
+  rm -f $INP1
+  rm -f $INP2
   rm -f $OUTP
   python fuelme.py $FINAL 0.86 0.07
 done
