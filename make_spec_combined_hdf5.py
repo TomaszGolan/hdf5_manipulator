@@ -88,12 +88,12 @@ def make_example_container(dset_description):
     return example_container
 
 
-def process_block(idx, start, stop):
+def process_block(filenum, start, stop):
     reader = MnvCategoricalSQLiteReader(67, DBBASE)
     kine_d = h5py.File(KINEFILE, 'r')
     z_act = h5py.File(ZACTUALFLE, 'r')
 
-    output_file = OUTBASE + '{:08d}'.format(idx) + '.hdf5'
+    output_file = OUTBASE + '{:08d}'.format(filenum) + '.hdf5'
     f = prepare_hdf5_file(output_file)
     dset_description = build_dset_description()
     prep_datasets_using_dset_descrip_only(f, dset_description)
@@ -104,7 +104,7 @@ def process_block(idx, start, stop):
         r, s, g, p = decode_eventid(evt)
         # get the acutal value
         example_container['planecodes_actual'] = \
-            z_act['planecodes'][i]
+            z_act['planecodes'][i + start]
         # get the predicted value
         try:
             example_container['planecodes_pred'] = \
@@ -116,7 +116,7 @@ def process_block(idx, start, stop):
             continue
         # get the kinematics values
         idx = np.where(
-            z_act['eventids'][:] == example_container['eventids']
+            kine_d['eventids'][:] == example_container['eventids']
         )
         if idx[0].shape[0] == 0:
             # don't have the kin values for this
