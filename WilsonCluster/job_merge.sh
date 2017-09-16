@@ -50,9 +50,10 @@ BASEFILEROOT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x94x47"
 SAMPLE="me1Amc"
 
 DOKINE="no"
-DOTIME="no"
-DOENGY="yes"
+DOTIME="yes"
+DOENGY="no"
 DO2DET="no"
+DOSPEC="no"
 
 # do kine
 if [[ "$DOKINE" == "yes" ]]; then
@@ -103,6 +104,16 @@ python fuelme.py $OUT 0.86 0.07
 EOF
   python merge_big.py --input $INP --output $OUT
   python fuelme.py $OUT 0.86 0.07
+fi
+
+# do special
+if [[ "$DOSPEC" == "yes" ]]; then
+  INP="${INPATH}/staging/me1Amc_zzpredpluskine"
+  OUT="${OUTPATH}/me1Amc_zzpredpluskine.hdf5"
+cat << EOF
+python merge_big.py --input $INP --output $OUT
+EOF
+  python merge_big.py --input $INP --output $OUT
 fi
 
 
