@@ -47,11 +47,12 @@ done
 
 BASEFILEROOT="minosmatch_kinedat"
 BASEFILEROOT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x94x47"
-SAMPLE="me1Amc"
+BASEFILEROOT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25"
+SAMPLE="me1Bmc"
 
 DOKINE="no"
 DOTIME="yes"
-DOENGY="no"
+DOENGY="yes"
 DO2DET="no"
 DOSPEC="no"
 
