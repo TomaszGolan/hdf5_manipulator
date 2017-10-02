@@ -52,8 +52,8 @@ SAMPLE="me1Bmc"
 
 DOKINE="no"
 DOTIME="no"
-DOENGY="yes"
-DO2DET="no"
+DOENGY="no"
+DO2DET="yes"
 DOSPEC="no"
 
 # do kine
