@@ -12,7 +12,7 @@
 #restore to turn off email #PBS -m n
 
 
-START=1
+START=0
 STOP=58
 
 SAMPLE=me1Bmc
@@ -20,8 +20,8 @@ SAMPLE=me1Bmc
 INPATH="/data/perdue/minerva/hdf5/201709"
 OUTPATH="/data/perdue/minerva/hdf5/201709"
 
-BASEFILEROOT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x94x47"
 BASEFILEROOT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x50x25"
+BASEFILEROOT="minosmatch_nukecczdefs_genallzwitht_pcodecap66_127x94x47"
 TIMELATROOT="${BASEFILEROOT}_txtutv"
 ENGYLATROOT="${BASEFILEROOT}_xuv"
 
