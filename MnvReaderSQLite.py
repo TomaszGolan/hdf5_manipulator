@@ -48,6 +48,15 @@ class MnvCategoricalSQLiteReader:
         results = rp.fetchall()
         return results
 
+    def read_record_by_id(self, id):
+        """ by id """
+        s = select([self.table]).where(
+            self.table.c.id == id
+        )
+        rp = self.connection.execute(s)
+        results = rp.fetchall()
+        return results
+
     def get_argmax_prediction(self, run, subrun, gate, evt):
         """ get the segment / planecode """
         s = select([self.table]).where(
