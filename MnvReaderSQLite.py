@@ -15,9 +15,10 @@ class MnvCategoricalSQLiteReader:
     """
     record segments or planecodes in a sqlite db
     """
-    def __init__(self, n_classes, db_base_name):
+    def __init__(self, n_classes, db_base_name, db_prob_column_format='prob%03d'):
         self.n_classes = n_classes
         self.db_name = db_base_name + '.db'
+        self._db_prob_columns_format = db_prob_column_format
         self._configure_db()
 
     def read_data(self, limit=1):
@@ -83,7 +84,7 @@ class MnvCategoricalSQLiteReader:
                                'run', 'subrun', 'gate', 'phys_evt'
                            ))
         for i in range(self.n_classes):
-            name = 'prob%02d' % i
+            name = self._db_prob_columns_format % i
             col = Column(name, Float())
             self.table.append_column(col)
 
