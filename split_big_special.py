@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 """
 Split hdf5 (big) file into non-equal chunks
+
+split_big_special is special, haha, and hacky and requires inputs of a
+specific shape -- just hack the script if you want to use it. note that
+`--size` is a required argument, but it is a dummy arg.
 """
 import os
 from parser import get_args_split as parser

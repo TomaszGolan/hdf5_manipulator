@@ -40,3 +40,6 @@ rm -f *.hdf5
 
 # test split_big.py
 ../split.py --input matrix1.hdf5 --size 500
+
+# split_big_special is special, haha, and hacky and requires inputs of a
+# specific shape -- just hack the script if you want to use it.
