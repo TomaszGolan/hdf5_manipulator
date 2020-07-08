@@ -6,7 +6,6 @@ import os
 from parser import get_args_split as parser
 import msg
 import hdf5
-import check
 from combine_big import load
 from split import generate_uneven_filelist
 from split import save_filelist
@@ -20,7 +19,7 @@ if __name__ == '__main__':
     data = load(args.input)
 
     # TODO - come up with a clever way to generalize this...
-    new_sizes = [(0, 50000), (50000, 60000), (60000, 70000)]
+    new_sizes = [(0, 15000), (15000, 17500), (17500, 20000)]
     new_names_ext = ['_train.hdf5', '_valid.hdf5', '_test.hdf5']
     new_filelist = zip(new_names_ext, new_sizes)
 
@@ -29,7 +28,7 @@ if __name__ == '__main__':
         new_filelist
     )
 
-    print "\nSaving output files:\n"
+    print("\nSaving output files:\n")
 
     for f, r in filelist.iteritems():
         msg.list_fileinfo(f, r)

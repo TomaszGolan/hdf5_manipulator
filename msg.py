@@ -23,8 +23,8 @@ def _print(text, indent, color):
     """
 
     if indent:
-        print '\t' * indent,
-    print color + text + END
+        print('\t' * indent,)
+    print(color + text + END)
 
 
 def info(text, indent=None):
@@ -52,14 +52,14 @@ def box(text, width=80):
 
     """'Draw box' and print text in the center (using BOLD font)."""
 
-    print BLUE
-    pad = (width - len(text)) / 2
-    print '+' + '-' * width + '+'
-    print '|' + ' ' * width + '|'
-    print '|' + ' ' * pad + text + ' ' * (width - pad - len(text)) + '|'
-    print '|' + ' ' * width + '|'
-    print '+' + '-' * width + '+'
-    print END
+    print(BLUE)
+    pad = (width - len(text)) // 2
+    print('+' + '-' * width + '+')
+    print('|' + ' ' * width + '|')
+    print('|' + ' ' * pad + text + ' ' * (width - pad - len(text)) + '|')
+    print('|' + ' ' * width + '|')
+    print('+' + '-' * width + '+')
+    print(END)
 
 
 def list_dataset(data, indent=1):
@@ -73,11 +73,11 @@ def list_dataset(data, indent=1):
     adjust = len(max(data.keys(), key=len)) + 1  # length of left text column
 
     for key in data:
-        print '\t' * indent + " - %(key)s %(type)s %(size)s" \
-            % {"key": (key+':').ljust(adjust),
-               "size": '-> ' + str(data[key].shape),
-               "type": ('[' + str(data[key].dtype) + ']').ljust(9),
-               }
+        print('\t' * indent + " - %(key)s %(type)s %(size)s"
+              % {"key": (key+':').ljust(adjust),
+                 "size": '-> ' + str(data[key].shape),
+                 "type": ('[' + str(data[key].dtype) + ']').ljust(9),
+                 })
 
 
 def list_fileinfo(filename, range):
@@ -89,6 +89,6 @@ def list_fileinfo(filename, range):
     range -- subset to be saved
     """
 
-    print "\t - %(file)s: %(n)d entries from %(b)d to %(e)d" \
+    print("\t - %(file)s: %(n)d entries from %(b)d to %(e)d"
           % {"file": filename, "n": range[1] - range[0],
-             "b": range[0], "e": range[1] - 1}
+             "b": range[0], "e": range[1] - 1})

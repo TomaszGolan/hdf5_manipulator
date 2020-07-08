@@ -41,12 +41,13 @@ def generate_filelist(prefix, old_size, new_size):
 
 def generate_uneven_filelist(path, new_sizelist):
 
-    """Generate filenames for output files
-    and return as a dict (file: [begin, end]).
+    """
+    Generate filenames for output files and return as a dict
+    (file: [begin, end]).
 
     Keyword arguments:
     path -- common path
-    new_sizelist -- list of tuples for the different files (name, (start, stop))
+    new_sizelist -- list of tuples for the files (name, (start, stop))
     """
 
     files = OrderedDict()
@@ -72,7 +73,7 @@ def save_filelist(filename, filelist):
     f = open(filename, 'w')
 
     for fn in filelist:
-        print >>f, os.path.abspath(fn)
+        print(os.path.abspath(fn), file=f)
 
     f.close()
 
@@ -84,14 +85,14 @@ if __name__ == '__main__':
     args = parser()
     data = hdf5.load(args.input)
 
-    print "The following datasets were found in %s:\n" % args.input
+    print("The following datasets were found in %s:\n" % args.input)
     msg.list_dataset(data)
 
     filelist = generate_filelist(
         args.prefix or os.path.splitext(args.input)[0],
         check.get_size(data), int(args.size))
 
-    print "\nSaving output files:\n"
+    print("\nSaving output files:\n")
 
     for f, r in filelist.iteritems():
         msg.list_fileinfo(f, r)
