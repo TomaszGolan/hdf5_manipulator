@@ -11,7 +11,7 @@ ids = np.arange(N)
 data_number = np.random.random_sample(N)
 data_vector = np.random.random_sample((N, 2))
 data_matrix = np.random.random_sample((N, 2, 2))
-toremove = list(np.random.random_integers(low=0, high=N, size=10))
+toremove = list(np.random.random_integers(0, N+1, size=10))
 
 
 def create(filename, number=False, vector=False, matrix=False, remove=None,
