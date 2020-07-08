@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-
 import sys
 import importlib
 
 print('Python version: {}'.format(sys.version))
+
 
 def test_module_version(module_name):
     try:
@@ -13,6 +13,7 @@ def test_module_version(module_name):
         print('Missing {}'.format(module_name))
     except Exception as e:
         print(e)
+
 
 modules = [
     'h5py', 'numpy',

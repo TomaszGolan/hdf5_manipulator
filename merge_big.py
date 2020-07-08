@@ -2,12 +2,8 @@
 """
 Merge hdf5 (big) files
 """
-import os
 import sys
 import h5py
-import hdf5
-import numpy as np
-from collections import OrderedDict
 from parser import get_args_merge as parser
 import msg
 import check
@@ -69,14 +65,15 @@ def add_data(source, output, range):
 
     data = h5py.File(source, 'r')
 
-    print "\nAdding entries from %(f)s in [%(i)d:%(f)d]" \
-          % {"f": source, "i": range[0], "f": range[1]}
+    print("\nAdding entries from %(f)s in [%(i)d:%(j)d]"
+          % {"f": source, "i": range[0], "j": range[1]})
     check.check_keys(data, output)
     check.check_shapes(data, output)
     for key in data:
         output[key][range[0]:range[1]] = data[key]
 
     data.close()
+
 
 if __name__ == '__main__':
 
@@ -90,10 +87,10 @@ if __name__ == '__main__':
         msg.error("No files matching --input were found.")
         sys.exit(1)
 
-    print "The following input files were found:\n"
+    print("The following input files were found:\n")
 
     for f in filelist:
-        print "\t - %s" % f
+        print("\t - %s" % f)
 
     output = h5py.File(args.output, 'w')
 

@@ -79,7 +79,7 @@ def merge_data(data1, data2, match,
                 print("finished event {}".format(ct))
         ct += 1
 
-    # TODO - pass in a value here; generally speaking, it is not right to 
+    # TODO - pass in a value here; generally speaking, it is not right to
     # never allow the match index value to be zero - it might be so
     # legitimately; but for now...
     badidx = np.where(data[match] == 0)
@@ -106,7 +106,7 @@ def get_data(filename, match, keys):
 
     data = hdf5.load(filename)
 
-    print "\nThe following datasets were found in %s:\n" % filename
+    print("\nThe following datasets were found in %s:\n" % filename)
     msg.list_dataset(data)
 
     check.key_exists(match, data, filename)
@@ -116,6 +116,7 @@ def get_data(filename, match, keys):
         update_data(data, [k.strip() for k in keys.split(',')], args.match)
 
     return data
+
 
 if __name__ == '__main__':
 
@@ -131,7 +132,7 @@ if __name__ == '__main__':
     data = merge_data(data1, data2, args.match,
                       args.print_warnings, args.show_progress)
 
-    print "\nThe following datasets will be saved in %s:\n" % args.output
+    print("\nThe following datasets will be saved in %s:\n" % args.output)
     msg.list_dataset(data)
 
     hdf5.save(args.output, data)
