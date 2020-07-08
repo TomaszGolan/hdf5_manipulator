@@ -2,15 +2,12 @@
 """
 Combine different datasets from two (big) hdf5 files
 """
-import os
 import sys
 import h5py
 import numpy as np
-from collections import OrderedDict
 from parser import get_args_combine as parser
 import msg
 import check
-from extract import update_data
 
 
 def match(input1, input2, output, key):
@@ -52,7 +49,7 @@ def get_keys(source, keys, skip):
     """
 
     if not keys:
-        keys = source.keys()
+        keys = list(source.keys())
     else:
         keys = [k.strip() for k in keys.split(',')]
         for k in keys:
@@ -91,10 +88,11 @@ def load(filename, mode='r'):
 
     f = h5py.File(filename, mode)
 
-    print "\nThe following datasets were found in %s:\n" % filename
+    print("\nThe following datasets were found in %s:\n" % filename)
     msg.list_dataset(f)
 
     return f
+
 
 if __name__ == '__main__':
 
@@ -118,7 +116,7 @@ if __name__ == '__main__':
     copy(in1, out, keys1)
     copy(in2, out, keys2)
 
-    print "\nThe following datasets were saved in %s:\n" % args.output
+    print("\nThe following datasets were saved in %s:\n" % args.output)
     msg.list_dataset(out)
 
     in1.close()

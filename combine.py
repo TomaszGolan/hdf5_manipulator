@@ -56,7 +56,10 @@ def merge_data(data1, data2, match,
 
     data, keys1, keys2 = build_data_dict(data1, data2, match)
 
-    for ct, i in enumerate(data1[match]):
+    # don't use enumerate here because we only want to increment the counter
+    # when we have a match
+    ct = 0
+    for i in data1[match]:
         index1 = np.array([ct])
         index2, = np.where(data2[match] == i)
         if not index2.size:
@@ -74,6 +77,18 @@ def merge_data(data1, data2, match,
         if show_progress:
             if ct % 100 == 0:
                 print("finished event {}".format(ct))
+        ct += 1
+
+    # TODO - pass in a value here; generally speaking, it is not right to
+    # never allow the match index value to be zero - it might be so
+    # legitimately; but for now...
+    badidx = np.where(data[match] == 0)
+    if len(badidx[0] > 1):
+        data[match] = np.delete(data[match], badidx, axis=0)
+    for key in keys1:
+        data[key] = np.delete(data[key], badidx, axis=0)
+    for key in keys2:
+        data[key] = np.delete(data[key], badidx, axis=0)
 
     return data
 
@@ -91,7 +106,7 @@ def get_data(filename, match, keys):
 
     data = hdf5.load(filename)
 
-    print "\nThe following datasets were found in %s:\n" % filename
+    print("\nThe following datasets were found in %s:\n" % filename)
     msg.list_dataset(data)
 
     check.key_exists(match, data, filename)
@@ -101,6 +116,7 @@ def get_data(filename, match, keys):
         update_data(data, [k.strip() for k in keys.split(',')], args.match)
 
     return data
+
 
 if __name__ == '__main__':
 
@@ -116,7 +132,7 @@ if __name__ == '__main__':
     data = merge_data(data1, data2, args.match,
                       args.print_warnings, args.show_progress)
 
-    print "\nThe following datasets will be saved in %s:\n" % args.output
+    print("\nThe following datasets will be saved in %s:\n" % args.output)
     msg.list_dataset(data)
 
     hdf5.save(args.output, data)

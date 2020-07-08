@@ -2,12 +2,11 @@
 """
 Rename dataset
 """
-import os
 import sys
-import h5py
 from parser import get_args_rename as parser
 from combine_big import load
 import msg
+
 
 if __name__ == '__main__':
 

@@ -5,11 +5,9 @@ Check if two hdf5 (big) files are the same.
 import sys
 import h5py
 import numpy as np
-import argparse
-import imp
-
-msg = imp.load_source('msg', '../msg.py')
-check = imp.load_source('check', '../check.py')
+sys.path.append('..')
+import msg
+import check
 
 
 def fullcheck(data1, data2, key):
@@ -61,17 +59,18 @@ def partcheck(data1, data2, key, n=100):
                       % {"key": key, "id": i})
             sys.exit(1)
 
+
 if __name__ == '__main__':
     if len(sys.argv) < 3:
-        print "usage: ./diff file1 file2 [fullcheck]"
+        print("usage: ./diff file1 file2 [fullcheck]")
         sys.exit(1)
 
     in1 = h5py.File(sys.argv[1], 'r')
     in2 = h5py.File(sys.argv[2], 'r')
 
-    print "\nThe following datasets were found in %s:\n" % sys.argv[1]
+    print("\nThe following datasets were found in %s:\n" % sys.argv[1])
     msg.list_dataset(in1)
-    print "\nThe following datasets were found in %s:\n" % sys.argv[2]
+    print("\nThe following datasets were found in %s:\n" % sys.argv[2])
     msg.list_dataset(in2)
 
     check.check_keys(in1, in2)
@@ -87,7 +86,8 @@ if __name__ == '__main__':
                 msg.error("%s datasets are different." % key)
             else:
                 msg.info("%s match." % key)
-        except:
+        except Exception as e:
+            print(e)
             if len(sys.argv) == 4 and sys.argv[3] == "fullcheck":
                 fullcheck(in1[key], in2[key], key)
             else:

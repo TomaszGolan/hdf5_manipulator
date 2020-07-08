@@ -43,17 +43,18 @@ def merge_data(data_list):
     for f in data_list:
         size = check.get_size(data_list[f])
         if not data:
-            print "\nThe following datasets were found in %s:\n" % f
+            print("\nThe following datasets were found in %s:\n" % f)
             msg.list_dataset(data_list[f])
             data = data_list[f]
         else:
-            print "\nAdding %(n)d entries from %(f)s" % {"n": size, "f": f}
+            print("\nAdding %(n)d entries from %(f)s" % {"n": size, "f": f})
             check.check_keys(data, data_list[f])
             check.check_shapes(data, data_list[f])
             for key in data_list[f]:
                 data[key] = np.append(data[key], data_list[f][key], axis=0)
 
     return data
+
 
 if __name__ == '__main__':
 
@@ -67,10 +68,10 @@ if __name__ == '__main__':
         msg.error("No files matching --input were found.")
         sys.exit(1)
 
-    print "The following input files were found:\n"
+    print("The following input files were found:\n")
 
     for f in filelist:
-        print "\t - %s" % f
+        print("\t - %s" % f)
 
     data = OrderedDict()
 
