@@ -5,10 +5,9 @@ Check if two hdf5 (big) files are the same.
 import sys
 import h5py
 import numpy as np
-import imp
-
-msg = imp.load_source('msg', '../msg.py')
-check = imp.load_source('check', '../check.py')
+sys.path.append('..')
+import msg
+import check
 
 
 def fullcheck(data1, data2, key):

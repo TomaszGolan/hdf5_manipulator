@@ -3,10 +3,10 @@
 Print info on datasets in hdf5 (big) file.
 """
 import sys
-import imp
 import h5py
+sys.path.append('..')
+import msg
 
-msg = imp.load_source('msg', '../msg.py')
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:

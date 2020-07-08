@@ -4,11 +4,11 @@ Check if two hdf5 files are the same.
 """
 import sys
 import numpy as np
-import imp
+sys.path.append('..')
+import hdf5
+import msg
+import check
 
-hdf5 = imp.load_source('hdf5', '../hdf5.py')
-msg = imp.load_source('msg', '../msg.py')
-check = imp.load_source('check', '../check.py')
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
