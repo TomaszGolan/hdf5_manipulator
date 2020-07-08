@@ -49,7 +49,7 @@ def get_keys(source, keys, skip):
     """
 
     if not keys:
-        keys = source.keys()
+        keys = list(source.keys())
     else:
         keys = [k.strip() for k in keys.split(',')]
         for k in keys:
