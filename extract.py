@@ -19,7 +19,8 @@ def update_data(data, keys, skip=None):
     skip -- the key not to delete
     """
 
-    for key in data.keys():
+    loopkeys = list(data.keys())
+    for key in loopkeys:
         if key == skip:
             continue
         if key not in keys:
