@@ -16,7 +16,7 @@ def test_module_version(module_name):
         print(e)
 
 modules = [
-    'h5py', 'numpy', 'argparse',
+    'h5py', 'numpy',
 ]
 
 for mod in modules:
