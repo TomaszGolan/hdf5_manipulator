@@ -26,7 +26,7 @@ def generate_filelist(prefix, old_size, new_size):
         msg.error("Use splitter wisely...")
         sys.exit(1)
 
-    nof_files, leftover = old_size / new_size, old_size % new_size
+    nof_files, leftover = old_size // new_size, old_size % new_size
 
     files = OrderedDict()
 
