@@ -3,9 +3,7 @@
 Check if two hdf5 files are the same.
 """
 import sys
-import h5py
 import numpy as np
-import argparse
 import imp
 
 hdf5 = imp.load_source('hdf5', '../hdf5.py')
@@ -14,15 +12,15 @@ check = imp.load_source('check', '../check.py')
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
-        print "usage: ./diff file1 file2"
+        print("usage: ./diff file1 file2")
         sys.exit(1)
 
     data1 = hdf5.load(sys.argv[1])
     data2 = hdf5.load(sys.argv[2])
 
-    print "\nThe following datasets were found in %s:\n" % sys.argv[1]
+    print("\nThe following datasets were found in %s:\n" % sys.argv[1])
     msg.list_dataset(data1)
-    print "\nThe following datasets were found in %s:\n" % sys.argv[2]
+    print("\nThe following datasets were found in %s:\n" % sys.argv[2])
     msg.list_dataset(data2)
 
     check.check_keys(data1, data2)

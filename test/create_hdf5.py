@@ -52,6 +52,7 @@ def create(filename, number=False, vector=False, matrix=False, remove=None,
 
     f.close()
 
+
 if __name__ == '__main__':
 
     create("full.hdf5", number=True, vector=True, matrix=True)
