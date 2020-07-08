@@ -10,6 +10,7 @@ from combine_big import load
 from split import generate_uneven_filelist
 from split import save_filelist
 
+
 if __name__ == '__main__':
 
     msg.box("HDF5 MANIPULATOR: SPLIT")
@@ -30,7 +31,7 @@ if __name__ == '__main__':
 
     print("\nSaving output files:\n")
 
-    for f, r in filelist.iteritems():
+    for f, r in filelist.items():
         msg.list_fileinfo(f, r)
         hdf5.save_subset_big(f, data, r[0], r[1])
 

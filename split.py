@@ -94,7 +94,7 @@ if __name__ == '__main__':
 
     print("\nSaving output files:\n")
 
-    for f, r in filelist.iteritems():
+    for f, r in filelist.items():
         msg.list_fileinfo(f, r)
         hdf5.save_subset(f, data, r[0], r[1])
 

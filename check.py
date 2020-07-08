@@ -14,7 +14,7 @@ def get_size(data):
     data -- data dictionary
     """
 
-    sizes = [d.shape[0] for d in data.itervalues()]  # shape[0] = #entries
+    sizes = [d.shape[0] for d in data.values()]  # shape[0] = #entries
 
     if max(sizes) != min(sizes):
         msg.error("Each dataset within a file must have the "
